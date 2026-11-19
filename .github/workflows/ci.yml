@@ -1,0 +1,38 @@
+# ci.yml — web app template. Replace client-portal; keep actions on version tags
+# (pin to SHAs before public release — P2 checklist item).
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # npm deps live at the repo ROOT (frontend/ + shared/ share one lockfile).
+      - name: Install
+        run: npm ci
+
+      # Backend is optional in a web consumer; install it only when present.
+      - name: Install backend (if present)
+        run: |
+          if [ -f backend/requirements.txt ]; then pip install -r backend/requirements.txt; fi
+
+      - name: Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Verify (typecheck, lint, unit, build, pytest, e2e)
+        run: python scripts/verify.py --ci --e2e

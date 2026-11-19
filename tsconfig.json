@@ -1,0 +1,26 @@
+{
+  "extends": "./shared/config/tsconfig.base.json",
+  "compilerOptions": {
+    "jsx": "preserve",
+    "allowJs": true,
+    "incremental": true,
+    "plugins": [{ "name": "next" }],
+    "paths": {
+      "@/*": ["./frontend/*"],
+      "@shared/*": ["./shared/*"]
+    }
+  },
+  "include": [
+    "frontend/**/*.ts",
+    "frontend/**/*.tsx",
+    "shared/**/*.ts",
+    "shared/**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "frontend/.next",
+    "frontend/out",
+    "site",
+    "frontend/tests/e2e"
+  ]
+}

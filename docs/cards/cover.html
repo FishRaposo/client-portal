@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8" /><style>
+* { box-sizing: border-box; margin: 0; }
+body { width: 500px; height: 375px; padding: 36px; background: #0b0f14; color: #e8edf2;
+  font: 16px/1.5 system-ui, -apple-system, sans-serif; display: flex; flex-direction: column; justify-content: space-between; }
+.offer { color: #96a3b0; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; }
+h1 { font-size: 1.9rem; line-height: 1.15; margin: 8px 0; }
+.line { color: #96a3b0; font-size: 0.98rem; }
+footer { border-top: 1px solid #26303b; padding-top: 10px; color: #e0b040; font-size: 0.72rem; }
+</style></head>
+<body>
+  <div>
+    <p class="offer">L5/G5 full-stack app · L6/G6 RLS + Stripe webhooks</p>
+    <h1>Client Portal — isolation enforced by the database, not the app</h1>
+    <p class="line">Multi-tenant workspace: projects, scope approvals, delivery notes, invoices. CREATE POLICY in embedded Postgres; signed, idempotent webhooks; append-only audit.</p>
+  </div>
+  <footer>Limit: embedded Postgres + local signer only — no live Supabase/Stripe, no real payments, no users. Demo simulates the denial the local run enforces.</footer>
+</body>
+</html>

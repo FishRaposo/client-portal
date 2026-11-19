@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8" /><style>
+* { box-sizing: border-box; margin: 0; }
+body { width: 500px; height: 375px; padding: 36px; background: #0b0f14; color: #e8edf2;
+  font: 15px/1.5 system-ui, -apple-system, sans-serif; display: flex; flex-direction: column; justify-content: space-between; }
+.offer { color: #96a3b0; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; }
+h1 { font-size: 1.35rem; line-height: 1.2; margin: 8px 0 12px; }
+pre { background: #10161d; border: 1px solid #26303b; border-radius: 8px; padding: 10px 12px; font-size: 0.72rem; color: #8ec2ff; line-height: 1.5; }
+.detail { color: #96a3b0; font-size: 0.82rem; margin-top: 10px; }
+footer { border-top: 1px solid #26303b; padding-top: 10px; color: #96a3b0; font-size: 0.72rem; }
+</style></head>
+<body>
+  <div>
+    <p class="offer">The mechanism</p>
+    <h1>Every request in one serialized transaction</h1>
+    <pre>BEGIN;
+SET LOCAL ROLE app_user;
+set_config('app.tenant_id', $1, true);
+set_config('app.user_id',   $2, true);
+-- handlers write plain SQL;
+-- policies decide, roles read
+-- from memberships rows
+COMMIT;</pre>
+    <p class="detail">GUCs carry identity only — a caller cannot claim a role. Webhook: Stripe-scheme HMAC verify → idempotent event insert → definer-guarded open→paid.</p>
+  </div>
+  <footer>PGlite in-memory; reseeds on boot. No Docker, no DB server, no keys — Node 24+ and Python 3.11+ only.</footer>
+</body>
+</html>

@@ -1,0 +1,42 @@
+{
+  "name": "client-portal",
+  "private": true,
+  "type": "module",
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "next build frontend",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "lint": "eslint .",
+    "unit": "vitest run",
+    "e2e": "playwright test",
+    "serve:demo": "python scripts/serve_demo.py --port 3111 --base-path client-portal",
+    "server": "node server/index.ts",
+    "verify": "python scripts/verify.py --e2e",
+    "demo:build": "python scripts/build_demo.py"
+  },
+  "dependencies": {
+    "@electric-sql/pglite": "^0.5.17",
+    "next": "^16.4.6",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "^1.65.1",
+    "@tailwindcss/postcss": "^4.3.5",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^5.1.0",
+    "eslint": "^10.15.0",
+    "eslint-config-next": "^16.4.6",
+    "jsdom": "^31.0.1",
+    "prettier": "^3.10.1",
+    "tailwindcss": "^4.3.5",
+    "typescript": "^5.9.3",
+    "vitest": "^5.1.0"
+  }
+}

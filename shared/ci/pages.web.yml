@@ -1,0 +1,47 @@
+# pages.yml — web app demo deploy template. Deploys the static export on
+# main only; never on pull requests. Replace client-portal / client-portal.
+name: pages
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+
+      # npm deps live at the repo ROOT (frontend/ + shared/ share one lockfile).
+      - name: Install
+        run: npm ci
+
+      - name: Build static demo (mock adapter, basePath client-portal)
+        run: python scripts/build_demo.py
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

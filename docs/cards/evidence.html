@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8" /><style>
+* { box-sizing: border-box; margin: 0; }
+body { width: 500px; height: 375px; padding: 36px; background: #0b0f14; color: #e8edf2;
+  font: 15px/1.5 system-ui, -apple-system, sans-serif; display: flex; flex-direction: column; justify-content: space-between; }
+.offer { color: #96a3b0; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; }
+h1 { font-size: 1.35rem; line-height: 1.2; margin: 8px 0 12px; }
+.row { display: flex; gap: 10px; align-items: baseline; margin: 7px 0; font-size: 0.88rem; }
+.tag { color: #f4655f; font-size: 0.7rem; text-transform: uppercase; min-width: 4.6em; }
+.tag.ok { color: #4ec98e; }
+code { color: #8ec2ff; font-size: 0.8rem; }
+.detail { color: #96a3b0; }
+footer { border-top: 1px solid #26303b; padding-top: 10px; color: #96a3b0; font-size: 0.72rem; }
+</style></head>
+<body>
+  <div>
+    <p class="offer">Real policy denial, audited</p>
+    <h1>Cross-tenant read denied by Postgres, not by an if-statement</h1>
+    <div class="row"><span class="tag">deny</span><span><code>GET /api/projects/3</code><br/><span class="detail">owner of tenant 1 → policy filters the row → 404 + audit row</span></span></div>
+    <div class="row"><span class="tag">deny</span><span><code>member decide approval</code><br/><span class="detail">UPDATE returns 0 rows — silently filtered by approval_decide</span></span></div>
+    <div class="row"><span class="tag ok">audit</span><span><code>audit_log</code><br/><span class="detail">append-only; only the owner can read it — itself a policy</span></span></div>
+  </div>
+  <footer>Asserted by server/test/policies.test.ts against the same migrations the app boots — not a mock.</footer>
+</body>
+</html>
