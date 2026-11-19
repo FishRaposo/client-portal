@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "unit": "vitest run",
     "e2e": "playwright test",
-    "serve:demo": "python scripts/serve_demo.py --port 3111 --base-path client-portal",
+    "serve:demo": "python scripts/serve_demo.py --port 3112 --base-path client-portal",
     "server": "node server/index.ts",
     "verify": "python scripts/verify.py --e2e",
     "demo:build": "python scripts/build_demo.py"

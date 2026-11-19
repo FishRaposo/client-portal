@@ -1,0 +1,23 @@
+{
+  "id": "2026-11-19-demo-serve-port-collision",
+  "repo": "client-portal",
+  "title": "e2e webServer port 3111 shared with sibling repos; a stale serve_demo broke the fresh-clone verify",
+  "kind": "bug",
+  "found_date": "2026-11-19",
+  "found_by": "review",
+  "symptom": "On a fresh clone, `python scripts/verify.py --e2e` failed at the e2e step: Playwright timed out 120s waiting for http://127.0.0.1:3111/client-portal/. A stale `serve_demo.py --port 3111 --base-path docs-answer` process left over from docs-answer's earlier verify was holding the port and serving a different base path, so the URL never came up.",
+  "reproduce": [
+    "python scripts/serve_demo.py --port 3111 --base-path docs-answer &  # simulate a stale sibling server",
+    "python scripts/verify.py --e2e  # e2e step times out on the webServer URL"
+  ],
+  "expected": "Each repo's demo e2e binds a port no sibling uses; a leftover server from one repo cannot break another's verify.",
+  "failing_revision": "d894fc7bdc497db23efcae27e97db9c8fbc91f58",
+  "fix_commit": null,
+  "regression_test": "frontend/tests/e2e/core-journey.spec.ts asserts the origin port; playwright.config.ts port is now unique per repo (this repo: 3112).",
+  "root_cause": "The scaffold template hardcoded port 3111 for every repo's serve_demo webServer, and rescue-scanner, client-portal and docs-answer all instantiated it unchanged. Playwright can leave a spawned webServer behind when a run is interrupted, so any stale sibling server occupying 3111 poisons this repo's e2e.",
+  "status": "open",
+  "bench_candidate": "no",
+  "bench_note": "Failure is environmental (a second process holding the port); not reproducible by a single bounded test inside this repo.",
+  "publishable": true,
+  "notes": "Same fix applied in docs-answer (-> 3113); the scaffold template now assigns the next free port per new repo."
+}

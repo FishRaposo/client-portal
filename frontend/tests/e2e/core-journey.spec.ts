@@ -9,7 +9,7 @@ test("demo journey: persona -> projects -> denied deep link -> audit", async ({ 
   });
   page.on("request", (r) => {
     const url = new URL(r.url());
-    expect(url.host).toBe("127.0.0.1:3111");
+    expect(url.host).toBe("127.0.0.1:3112");
   });
 
   await page.goto("signin/");

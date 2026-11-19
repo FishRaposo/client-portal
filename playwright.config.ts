@@ -6,10 +6,10 @@ import { makePlaywrightOptions } from "./shared/testing/playwright.config";
 // client-portal — see npm run serve:demo.
 export default defineConfig(
   makePlaywrightOptions({
-    port: 3111,
-    baseURL: "http://127.0.0.1:3111/client-portal/",
+    port: 3112,
+    baseURL: "http://127.0.0.1:3112/client-portal/",
     command:
-      "python scripts/serve_demo.py --port 3111 --base-path client-portal",
+      "python scripts/serve_demo.py --port 3112 --base-path client-portal",
     testDir: "./frontend/tests/e2e",
   }),
 );
