@@ -40,3 +40,9 @@ Verify everything: `python scripts/verify.py --e2e` (typecheck, lint, vitest —
 - No live Stripe or Supabase: the local signer follows Stripe's published scheme and shares one verifier, but no key or test-mode account is required or present.
 - No real payments, email delivery, SSO, or production claims. The seeded people and tenants are synthetic.
 - The demo simulates the policy denial; only the local run enforces it.
+
+## Part of the stack
+
+[Docs Answer](https://github.com/FishRaposo/docs-answer) · [Deploy Doctor](https://github.com/FishRaposo/deploy-doctor) · [Rescue Scanner](https://github.com/FishRaposo/rescue-scanner) · [Triage Agent](https://github.com/FishRaposo/triage-agent) · [Fix Bench](https://github.com/FishRaposo/fix-bench)
+
+Two flagships and four supporting pieces. Docs Answer is the other flagship; Deploy Doctor reads the failed build, Rescue Scanner audits the generated app, Triage Agent is the approval-gated workflow, and Fix Bench turns each real defect into a scored task.
