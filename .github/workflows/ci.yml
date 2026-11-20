@@ -26,10 +26,15 @@ jobs:
       - name: Install
         run: npm ci
 
-      # Backend is optional in a web consumer; install it only when present.
-      - name: Install backend (if present)
+      # verify.py runs pytest for every web repo; install it when there are
+      # Python tests, with or without a backend/ directory.
+      - name: Install Python deps (if present)
         run: |
-          if [ -f backend/requirements.txt ]; then pip install -r backend/requirements.txt; fi
+          if [ -f backend/requirements.txt ]; then
+            python -m pip install -r backend/requirements.txt
+          elif [ -n "$(find . -name 'test_*.py' -not -path './node_modules/*' -print -quit)" ]; then
+            python -m pip install 'pytest>=9.0,<10'
+          fi
 
       - name: Playwright browsers
         run: npx playwright install --with-deps chromium

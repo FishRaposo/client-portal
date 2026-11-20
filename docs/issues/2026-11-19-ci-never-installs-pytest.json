@@ -1,0 +1,24 @@
+{
+  "id": "2026-11-19-ci-never-installs-pytest",
+  "repo": "client-portal",
+  "title": "CI runs pytest without installing it in a repo that has Python tests and no backend",
+  "kind": "build-failure",
+  "found_date": "2026-11-19",
+  "found_by": "ci",
+  "symptom": "The first GitHub Actions run (workflow run 44650279227) failed with `python: No module named pytest`. verify.py runs pytest for every web repo, but .github/workflows/ci.yml installs Python dependencies only when backend/requirements.txt exists. client-portal has Python tests at shared/auth/test_auth.py and shared/db/test_db.py and no backend/ directory, so nothing was ever installed. The local run passed only because pytest is installed machine-wide.",
+  "reproduce": [
+    "read .github/workflows/ci.yml (the 'Install backend (if present)' step)",
+    "a clean ubuntu-latest runner with Python 3.11 has no pytest",
+    "python scripts/verify.py --ci --e2e"
+  ],
+  "expected": "A repo that runs pytest installs pytest, whether or not it has a backend directory.",
+  "failing_revision": "485573f",
+  "fix_commit": "working tree (uncommitted); the CI workflow installs pytest whenever Python tests exist",
+  "regression_test": "the ci workflow itself on a clean runner",
+  "root_cause": "The scaffold CI template treated Python as an optional backend concern and gated the whole install on backend/requirements.txt, while verify.py treats pytest as a standard step for every web repo. The two disagreed, and only a clean runner exposed it: the local machine already had pytest.",
+  "status": "fixed",
+  "bench_candidate": "yes",
+  "bench_note": "A committed failing state, a small workflow fix and a CI run that decides pass or fail.",
+  "publishable": true,
+  "notes": "Scaffold-level defect: the same template is vendored into docs-answer and triage-agent, which pass only because they do have a backend. The template needs the same correction so the next repo does not repeat it."
+}
